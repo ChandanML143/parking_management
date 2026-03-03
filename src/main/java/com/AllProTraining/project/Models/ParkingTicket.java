@@ -4,6 +4,8 @@ import com.AllProTraining.project.DTO.TicketStatus;
 import com.AllProTraining.project.Models.ParkingSpot;
 import com.AllProTraining.project.Models.Vehicle;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
                 @Index(name = "idx_ticket_status", columnList = "status"),
                 @Index(name = "idx_ticket_entry", columnList = "entry_time")
         })
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class ParkingTicket {
 
     @Id

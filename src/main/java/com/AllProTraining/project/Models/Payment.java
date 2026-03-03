@@ -3,11 +3,14 @@ package com.AllProTraining.project.Models;
 import com.AllProTraining.project.DTO.PaymentMethod;
 import com.AllProTraining.project.DTO.PaymentStatus;
 import jakarta.persistence.*;
+import lombok.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "payment")
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
 public class Payment {
 
     @Id
