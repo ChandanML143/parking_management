@@ -24,4 +24,11 @@ public class VehicleServiceImpl implements VehicleService {
     public Vehicle findByLicensePlate(String plateNum) {
         return vehicleRepository.findByLicensePlate(plateNum).orElseThrow(() -> new RuntimeException("Vehicle Not found"));
     }
+
+    @Override
+    public Vehicle findById(Long id) {
+        return vehicleRepository.findById(id).orElseThrow(() -> new RuntimeException("Vehicle Not found"));
+    }
+
+
 }
