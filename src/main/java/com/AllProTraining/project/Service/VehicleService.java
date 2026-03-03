@@ -7,4 +7,5 @@ import java.util.List;
 public interface VehicleService {
     public List<Vehicle> findAll();
     public Vehicle findByLicensePlate(String plateNum);
+    public Vehicle findById(Long id);
 }

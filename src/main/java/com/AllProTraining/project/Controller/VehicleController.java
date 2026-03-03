@@ -27,4 +27,7 @@ public class VehicleController {
     public Vehicle getByPlate(@PathVariable String plateNum) {
         return vehicleService.findByLicensePlate(plateNum);
     }
+
+    @GetMapping("/id/{id}")
+    public Vehicle getById(@PathVariable Long id) {return vehicleService.findById(id); }
 }
