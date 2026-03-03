@@ -3,6 +3,7 @@ package com.AllProTraining.project.Models;
 
 import com.AllProTraining.project.DTO.SpotType;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
                 )
         }
 )
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class ParkingSpot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,4 +58,19 @@ public class ParkingSpot {
 
     @Column(name = "updated_at", nullable = false, insertable = false)
     private LocalDateTime updatedAt;
+
+    @Override
+    public String toString() {
+        return "ParkingSpot{" +
+                "id=" + id +
+                ", parkingLot=" + parkingLot +
+                ", spotNumber='" + spotNumber + '\'' +
+                ", floorNumber=" + floorNumber +
+                ", spotType=" + spotType +
+                ", isAvailable=" + isAvailable +
+                ", hourlyRate=" + hourlyRate +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
