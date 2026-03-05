@@ -3,7 +3,6 @@ package com.AllProTraining.project.DTO;
 import lombok.*;
 
 //@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@Builder
 public class ParkingLotSummaryResponse {
     private Long parkingLotId;
     private String name;
