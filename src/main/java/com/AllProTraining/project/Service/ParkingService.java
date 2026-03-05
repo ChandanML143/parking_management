@@ -18,4 +18,6 @@ public interface ParkingService {
     TicketResponse parkEntry(ParkingVehicleEntry request) throws BadRequestException;
 
     public List<ParkingSpot> getAllAvailableSpots(Long lotId, SpotType spotType);
+
+    ParkingLotSummaryResponse getParkingLotById(Long lotId);
 }

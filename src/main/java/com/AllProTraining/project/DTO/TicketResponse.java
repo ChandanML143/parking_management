@@ -9,7 +9,7 @@ public class TicketResponse {
     private String vehicleType;
     private String spotNumber;
 
-    //Add LicensePlate setter
+    private String licensePlate;
 
     private String parkingLotName;
     private int floorNumber;
@@ -56,6 +56,12 @@ public class TicketResponse {
     public String getParkingLotName() {
         return parkingLotName;
     }
+
+
+    public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
+    
+    public String getLicensePlate() { return licensePlate; }
+
 
     public void setParkingLotName(String parkingLotName) {
         this.parkingLotName = parkingLotName;
@@ -128,11 +134,14 @@ public class TicketResponse {
     public TicketResponse() {
     }
 
-    public TicketResponse(Long id, String ticketNumber, String vehicleType, String spotNumber, String parkingLotName, int floorNumber, BigDecimal hourlyRate, LocalDateTime entryTime, LocalDateTime exitTime, BigDecimal totalAmount, TicketStatus ticketStatus, String paymentMethod, String paymentStatus) {
+    public TicketResponse(Long id, String ticketNumber, String vehicleType, String spotNumber, String licensePlate, String parkingLotName, int floorNumber, BigDecimal hourlyRate, LocalDateTime entryTime, LocalDateTime exitTime, BigDecimal totalAmount, TicketStatus ticketStatus, String paymentMethod, String paymentStatus) {
         this.id = id;
         this.ticketNumber = ticketNumber;
         this.vehicleType = vehicleType;
         this.spotNumber = spotNumber;
+
+        this.licensePlate = licensePlate;
+
         this.parkingLotName = parkingLotName;
         this.floorNumber = floorNumber;
         this.hourlyRate = hourlyRate;
@@ -142,5 +151,9 @@ public class TicketResponse {
         this.ticketStatus = ticketStatus;
         this.paymentMethod = paymentMethod;
         this.paymentStatus = paymentStatus;
+    }
+
+    public TicketResponse(String licensePlate) {
+        this.licensePlate = licensePlate;
     }
 }

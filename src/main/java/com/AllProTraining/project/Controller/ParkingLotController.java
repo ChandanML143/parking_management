@@ -26,7 +26,12 @@ public class ParkingLotController {
         return parkingService.getAllParkingLots();
     }
 
-    // create an API toi find parking lot summary by parkingLotId
+    // create an API to find parking lot summary by parkingLotId
+
+    @GetMapping("/lots/{lotId}")
+    public ParkingLotSummaryResponse getParkingLotById(@PathVariable Long lotId) {
+        return parkingService.getParkingLotById(lotId);
+    }
 
     @PostMapping("/entry")
     public ResponseEntity<TicketResponse> parkEntry(@RequestBody ParkingVehicleEntry request) throws BadRequestException {
