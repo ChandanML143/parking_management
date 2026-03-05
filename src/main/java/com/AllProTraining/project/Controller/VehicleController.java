@@ -1,13 +1,13 @@
 package com.AllProTraining.project.Controller;
 
+import com.AllProTraining.project.DTO.VehicleRequest;
 import com.AllProTraining.project.Models.Vehicle;
 import com.AllProTraining.project.Service.VehicleService;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,4 +30,9 @@ public class VehicleController {
 
     @GetMapping("/id/{id}")
     public Vehicle getById(@PathVariable Long id) {return vehicleService.findById(id); }
+
+    @PostMapping("/save")
+    public ResponseEntity<Vehicle> registerVehicleControl(@RequestBody VehicleRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(vehicleService.registerVehicle(request));
+    }
 }
