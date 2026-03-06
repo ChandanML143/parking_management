@@ -208,4 +208,24 @@ public class ParkingServiceImpl implements ParkingService {
 
         return toTicketResponse(ticket, payment);
     }
+
+   @Override
+   public TicketResponse getTicketByTicketNumber(String ticketNumber) {
+
+       ParkingTicket ticket = parkingTicketRepository
+               .findByTicketNumber(ticketNumber)
+               .orElseThrow(() -> new RuntimeException("Ticket not found"));
+
+       return toTicketResponse(ticket, null);
+   }
+
+    @Override
+    public List<TicketResponse> getAllActiveTickets() {
+        List<ParkingTicket> tickets = parkingTicketRepository.findByStatus(TicketStatus.ACTIVE);
+
+        return tickets.stream()
+                .map(ticket ->toTicketResponse(ticket, null))
+                .toList();
+    }
+
 }

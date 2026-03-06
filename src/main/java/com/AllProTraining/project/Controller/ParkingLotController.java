@@ -41,13 +41,22 @@ public class ParkingLotController {
 
 
     //api for exit
+    @PostMapping("/exit")
     public TicketResponse parkExit(@RequestBody ParkingVehicleExit request) throws BadRequestException {
         return parkingService.parkExit(request);
     }
 
-
     //lookup all the tickets by ticket number
+    @GetMapping("/ticket/{ticketNumber}")
+    public ResponseEntity<TicketResponse> getTicketByTicketNumber(@PathVariable String ticketNumber) {
+
+        return ResponseEntity.ok(parkingService.getTicketByTicketNumber(ticketNumber));
+    }
 
     //list all the active tickets
+    @GetMapping("/tickets/active")
+    public ResponseEntity<List<TicketResponse>> getAllActiveTickets() {
+        return ResponseEntity.ok(parkingService.getAllActiveTickets());
+    }
 
 }

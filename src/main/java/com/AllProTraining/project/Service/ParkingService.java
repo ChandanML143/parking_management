@@ -5,6 +5,7 @@ import com.AllProTraining.project.Models.ParkingSpot;
 import com.AllProTraining.project.Models.ParkingTicket;
 import com.AllProTraining.project.Models.Payment;
 import org.apache.coyote.BadRequestException;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public interface ParkingService {
     ParkingLotSummaryResponse getParkingLotById(Long lotId);
 
     TicketResponse parkExit(ParkingVehicleExit request) throws BadRequestException;
+
+    TicketResponse getTicketByTicketNumber(String ticketNumber);
+
+    List<TicketResponse> getAllActiveTickets();
 }
