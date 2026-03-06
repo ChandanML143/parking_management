@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface ParkingTicketRepository extends JpaRepository<ParkingTicket, Long> {
 
     Optional<ParkingTicket> findByVehicleLicensePlateAndStatus(String licensePlate, TicketStatus status);
+    Optional<ParkingTicket> findByTicketNumber(String ticketNumber);
+
 }

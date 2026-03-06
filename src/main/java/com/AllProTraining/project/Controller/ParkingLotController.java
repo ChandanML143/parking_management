@@ -2,6 +2,7 @@ package com.AllProTraining.project.Controller;
 
 import com.AllProTraining.project.DTO.ParkingLotSummaryResponse;
 import com.AllProTraining.project.DTO.ParkingVehicleEntry;
+import com.AllProTraining.project.DTO.ParkingVehicleExit;
 import com.AllProTraining.project.DTO.TicketResponse;
 import com.AllProTraining.project.Models.ParkingLot;
 import com.AllProTraining.project.Service.ParkingService;
@@ -37,5 +38,16 @@ public class ParkingLotController {
     public ResponseEntity<TicketResponse> parkEntry(@RequestBody ParkingVehicleEntry request) throws BadRequestException {
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingService.parkEntry(request));
     }
+
+
+    //api for exit
+    public TicketResponse parkExit(@RequestBody ParkingVehicleExit request) throws BadRequestException {
+        return parkingService.parkExit(request);
+    }
+
+
+    //lookup all the tickets by ticket number
+
+    //list all the active tickets
 
 }

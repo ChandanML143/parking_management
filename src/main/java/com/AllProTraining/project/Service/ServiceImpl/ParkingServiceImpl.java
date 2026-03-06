@@ -2,16 +2,16 @@ package com.AllProTraining.project.Service.ServiceImpl;
 
 import com.AllProTraining.project.DTO.*;
 import com.AllProTraining.project.Models.*;
-import com.AllProTraining.project.Repository.ParkingLotRepository;
-import com.AllProTraining.project.Repository.ParkingSpotRepository;
-import com.AllProTraining.project.Repository.ParkingTicketRepository;
-import com.AllProTraining.project.Repository.VehicleRepository;
+import com.AllProTraining.project.Repository.*;
 import com.AllProTraining.project.Service.ParkingService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +30,9 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Autowired
     private ParkingTicketRepository parkingTicketRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     @Override
     public List<ParkingLotSummaryResponse> getAllParkingLots() {
@@ -158,7 +161,51 @@ public class ParkingServiceImpl implements ParkingService {
         return response;
     }
 
-
-
     //exit vehicle logic
+
+    @Override
+    @Transactional
+    public TicketResponse parkExit(ParkingVehicleExit request) throws BadRequestException {
+
+        //Check Vehicle and Vehicle Status
+        ParkingTicket ticket = parkingTicketRepository.findByTicketNumber(request.getTicketNumber())
+                .orElseThrow(() -> new RuntimeException("Ticket not Found!"));
+        if(ticket.getStatus() != TicketStatus.ACTIVE) {
+            throw new BadRequestException("Vehicle already Exit");
+        }
+
+        //calculate the
+        LocalDateTime exitTime = LocalDateTime.now();
+        Duration duration = Duration.between(ticket.getEntryTime(), exitTime);
+        long hours = Math.max(1, (long) Math.ceil(duration.toMinutes() / 60.0));
+        BigDecimal totalAmount = ticket.getParkingSpot().getHourlyRate()
+                .multiply(BigDecimal.valueOf(hours))
+                .setScale(2, RoundingMode.HALF_UP);
+
+        //update ticket
+        ticket.setExitTime(exitTime);
+        ticket.setTotalAmount(totalAmount);
+        ticket.setStatus(TicketStatus.COMPLETED);
+        parkingTicketRepository.save(ticket);
+
+        //free the parking spot
+        ParkingSpot spot = ticket.getParkingSpot();
+        spot.setAvailable(true);
+        spotRepository.save(spot);
+
+        //create Payment
+
+        PaymentMethod method = request.getPaymentMethod() != null ? request.getPaymentMethod().getPaymentMethod() : PaymentMethod.CASH;
+
+        Payment payment = new Payment();
+        payment.setTicket(ticket);
+        payment.setAmount(totalAmount);
+        payment.setPaymentMethod(method);
+        payment.setPaymentStatus(PaymentStatus.SUCCESS);
+        payment.setPaidAt(LocalDateTime.now());
+
+        paymentRepository.save(payment);
+
+        return toTicketResponse(ticket, payment);
+    }
 }
