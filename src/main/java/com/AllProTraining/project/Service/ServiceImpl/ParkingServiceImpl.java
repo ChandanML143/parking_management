@@ -110,7 +110,16 @@ public class ParkingServiceImpl implements ParkingService {
         return null;
     }
 
-    private TicketResponse toTicketResponse(ParkingTicket parkingTicket, Payment payment) {
+   @Override
+   public ParkingLotSummaryResponse getParkingLotById(Long lotId) {
+
+       ParkingLot lot = lotRepository.findById(lotId)
+               .orElseThrow(() -> new RuntimeException("Parking Lot not found with id: " + lotId));
+
+       return toLotSummary(lot);
+   }
+
+   /* private TicketResponse toTicketResponse(ParkingTicket parkingTicket, Payment payment) {
         TicketResponse response = new TicketResponse();
         response.setId(parkingTicket.getId());
         response.setTicketNumber(parkingTicket.getTicketNumber());
@@ -122,7 +131,33 @@ public class ParkingServiceImpl implements ParkingService {
         response.setTicketStatus(parkingTicket.getStatus());
 
         return response;
+    }*/
+    private TicketResponse toTicketResponse(ParkingTicket parkingTicket, Payment payment) {
+
+        TicketResponse response = new TicketResponse();
+
+        response.setId(parkingTicket.getId());
+        response.setTicketNumber(parkingTicket.getTicketNumber());
+        response.setVehicleType(parkingTicket.getVehicle().getVehicleType().name());
+        response.setSpotNumber(parkingTicket.getParkingSpot().getSpotNumber());
+
+        response.setLicensePlate(parkingTicket.getVehicle().getLicensePlate());
+
+        response.setFloorNumber(parkingTicket.getParkingSpot().getFloorNumber());
+        response.setHourlyRate(parkingTicket.getParkingSpot().getHourlyRate());
+        response.setParkingLotName(parkingTicket.getParkingSpot().getParkingLot().getName());
+        response.setEntryTime(parkingTicket.getEntryTime());
+        response.setExitTime(parkingTicket.getExitTime());
+        response.setTicketStatus(parkingTicket.getStatus());
+        if (payment != null) {
+            response.setTotalAmount(payment.getAmount());
+            response.setPaymentMethod(payment.getPaymentMethod().name());
+            response.setPaymentStatus(payment.getPaymentStatus().name());
+        }
+
+        return response;
     }
+
 
 
     //exit vehicle logic
