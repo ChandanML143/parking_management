@@ -157,7 +157,7 @@ public class ParkingServiceImpl implements ParkingService {
             response.setPaymentMethod(payment.getPaymentMethod().name());
             response.setPaymentStatus(payment.getPaymentStatus().name());
         }
-
+        System.out.println(response);
         return response;
     }
 

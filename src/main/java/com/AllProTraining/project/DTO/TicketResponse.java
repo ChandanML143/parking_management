@@ -59,7 +59,7 @@ public class TicketResponse {
 
 
     public void setLicensePlate(String licensePlate) { this.licensePlate = licensePlate; }
-    
+
     public String getLicensePlate() { return licensePlate; }
 
 
@@ -155,5 +155,25 @@ public class TicketResponse {
 
     public TicketResponse(String licensePlate) {
         this.licensePlate = licensePlate;
+    }
+
+    @Override
+    public String toString() {
+        return "TicketResponse{" +
+                "id=" + id +
+                ", ticketNumber='" + ticketNumber + '\'' +
+                ", vehicleType='" + vehicleType + '\'' +
+                ", spotNumber='" + spotNumber + '\'' +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", parkingLotName='" + parkingLotName + '\'' +
+                ", floorNumber=" + floorNumber +
+                ", hourlyRate=" + hourlyRate +
+                ", entryTime=" + entryTime +
+                ", exitTime=" + exitTime +
+                ", totalAmount=" + totalAmount +
+                ", ticketStatus=" + ticketStatus +
+                ", paymentMethod='" + paymentMethod + '\'' +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                '}';
     }
 }
