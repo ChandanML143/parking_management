@@ -1,6 +1,7 @@
 package com.AllProTraining.project.Service.ServiceImpl;
 
 import com.AllProTraining.project.DTO.VehicleRequest;
+import com.AllProTraining.project.Exceptions.BadRequestExceptions;
 import com.AllProTraining.project.Models.Vehicle;
 import com.AllProTraining.project.Repository.VehicleRepository;
 import com.AllProTraining.project.Service.VehicleService;
@@ -37,8 +38,8 @@ public class VehicleServiceImpl implements VehicleService {
     public Vehicle registerVehicle(VehicleRequest request) {
         vehicleRepository.findByLicensePlate(request.getLicensePlate().toUpperCase()).ifPresent(v -> {
             try {
-                throw new BadRequestException("Vehicle already registered: " + v.getLicensePlate());
-            } catch (BadRequestException e) {
+                throw new BadRequestExceptions("Vehicle already registered: " + v.getLicensePlate());
+            } catch (BadRequestExceptions e) {
                 throw new RuntimeException(e);
             }
         });

@@ -1,6 +1,7 @@
 package com.AllProTraining.project.Service.ServiceImpl;
 
 import com.AllProTraining.project.DTO.*;
+import com.AllProTraining.project.Exceptions.BadRequestExceptions;
 import com.AllProTraining.project.Models.*;
 import com.AllProTraining.project.Repository.*;
 import com.AllProTraining.project.Service.ParkingService;
@@ -57,7 +58,7 @@ public class ParkingServiceImpl implements ParkingService {
 
     @Override
     @Transactional
-    public TicketResponse parkEntry(ParkingVehicleEntry request) throws BadRequestException {
+    public TicketResponse parkEntry(ParkingVehicleEntry request) throws BadRequestExceptions {
         //Step1. check the vehicle if exists
         Vehicle vehicle = vehicleRepository.findByLicensePlate(request.getLicensePlate().toUpperCase())
                 .orElseThrow(() -> new RuntimeException("Vehicle Not Found, Register the vehicle"));
@@ -66,8 +67,8 @@ public class ParkingServiceImpl implements ParkingService {
         parkingTicketRepository.findByVehicleLicensePlateAndStatus(vehicle.getLicensePlate(), TicketStatus.ACTIVE)
                 .ifPresent(t -> {
                     try {
-                        throw new BadRequestException("Vehicle is already Parked with Active TicketNumber: " + t.getTicketNumber());
-                    } catch (BadRequestException e) {
+                        throw new BadRequestExceptions ("Vehicle is already Parked with Active TicketNumber: " + t.getTicketNumber());
+                    } catch (BadRequestExceptions e) {
                         throw new RuntimeException(e);
                     }
                 });
@@ -78,12 +79,12 @@ public class ParkingServiceImpl implements ParkingService {
             spot = spotRepository.findById(request.getParkingSpotId())
                     .orElseThrow(() -> new RuntimeException("Spot not found"));
             if(!spot.getAvailable()) {
-                throw new BadRequestException("Spot already occupied!");
+                throw new BadRequestExceptions("Spot already occupied!");
             }
         } else {
             List<ParkingSpot> available = getAllAvailableSpots(request.getParkingLotId(), request.getPreferredSpotType());
             if (available.isEmpty()) {
-                throw new BadRequestException("No Spots available for the requested type");
+                throw new BadRequestExceptions ("No Spots available for the requested type");
             }
             spot = available.get(0);
         }
@@ -171,7 +172,7 @@ public class ParkingServiceImpl implements ParkingService {
         ParkingTicket ticket = parkingTicketRepository.findByTicketNumber(request.getTicketNumber())
                 .orElseThrow(() -> new RuntimeException("Ticket not Found!"));
         if(ticket.getStatus() != TicketStatus.ACTIVE) {
-            throw new BadRequestException("Vehicle already Exit");
+            throw new BadRequestExceptions("Vehicle already Exit");
         }
 
         //calculate the
